@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.fiap.calculodejuros.calculos.calcularJuros
 import br.com.fiap.calculodejuros.calculos.calcularMontante
+import br.com.fiap.calculodejuros.components.CaixaDeEntrada
 import br.com.fiap.calculodejuros.ui.theme.CalculoDeJurosTheme
 
 class MainActivity : ComponentActivity() {
@@ -88,22 +89,33 @@ fun JurosScreen() {
                         fontWeight = FontWeight.Bold
                     )
                     // Caixas de entrada da aplicação
-                    OutlinedTextField(
+//                    OutlinedTextField(
+//                        value = capital,
+//                        onValueChange = { capital = it },
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .padding(top = 16.dp),
+//                        placeholder = {
+//                            Text(text = "Quanto deseja investir?")
+//                        },
+//                        label = {
+//                            Text(text = "Valor do investimento")
+//                        },
+//                        keyboardOptions = KeyboardOptions(
+//                            keyboardType = KeyboardType.Decimal
+//                        )
+//                    )
+                    // Utilizando o componente CaixaDeEntrada
+                    CaixaDeEntrada(
                         value = capital,
-                        onValueChange = { capital = it },
+                        placeholder = "Quanto deseja investir?",
+                        label = "Valor do investimento",
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 16.dp),
-                        placeholder = {
-                            Text(text = "Quanto deseja investir?")
-                        },
-                        label = {
-                            Text(text = "Valor do investimento")
-                        },
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Decimal
-                        )
+                        keyboardType = KeyboardType.Decimal
                     )
+
                     OutlinedTextField(
                         value = taxa,
                         onValueChange = { taxa = it },
