@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.sp
 import br.com.fiap.calculodejuros.calculos.calcularJuros
 import br.com.fiap.calculodejuros.calculos.calcularMontante
 import br.com.fiap.calculodejuros.components.CaixaDeEntrada
+import br.com.fiap.calculodejuros.components.CardResultado
 import br.com.fiap.calculodejuros.ui.theme.CalculoDeJurosTheme
 
 class MainActivity : ComponentActivity() {
@@ -89,23 +90,7 @@ fun JurosScreen() {
                         text = "Dados do Investimento",
                         fontWeight = FontWeight.Bold
                     )
-                    // Caixas de entrada da aplicação
-//                    OutlinedTextField(
-//                        value = capital,
-//                        onValueChange = { capital = it },
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .padding(top = 16.dp),
-//                        placeholder = {
-//                            Text(text = "Quanto deseja investir?")
-//                        },
-//                        label = {
-//                            Text(text = "Valor do investimento")
-//                        },
-//                        keyboardOptions = KeyboardOptions(
-//                            keyboardType = KeyboardType.Decimal
-//                        )
-//                    )
+
                     // Utilizando o componente CaixaDeEntrada para o valor do investimento
                     CaixaDeEntrada(
                         value = capital, // Variável que controla o estado a partir do componente pai
@@ -119,23 +104,7 @@ fun JurosScreen() {
                             capital = it //Leia-se: capital recebe uma string it (valor atualizado na digitação)
                         }
                     )
-                    // Taxa de juros
-//                    OutlinedTextField(
-//                        value = taxa,
-//                        onValueChange = { taxa = it },
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .padding(top = 16.dp),
-//                        placeholder = {
-//                            Text(text = "Qual a taxa de juros mensal?")
-//                        },
-//                        label = {
-//                            Text(text = "Taxa de juros mensal")
-//                        },
-//                        keyboardOptions = KeyboardOptions(
-//                            keyboardType = KeyboardType.Decimal
-//                        )
-//                    )
+
                     // Utilizando o componente CaixaDeEntrada para a taxa de juros
                     CaixaDeEntrada(
                         value = taxa,
@@ -149,23 +118,7 @@ fun JurosScreen() {
                             taxa = it
                         }
                     )
-                    // Período de aplicação
-//                    OutlinedTextField(
-//                        value = tempo,
-//                        onValueChange = { tempo = it },
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .padding(top = 16.dp),
-//                        placeholder = {
-//                            Text(text = "Qual o tempo em meses?")
-//                        },
-//                        label = {
-//                            Text(text = "Período em meses")
-//                        },
-//                        keyboardOptions = KeyboardOptions(
-//                            keyboardType = KeyboardType.Decimal
-//                        )
-//                    )
+
                     // Utilizando o componente CaixaDeEntrada para o período de aplicação
                     CaixaDeEntrada(
                         value = tempo,
@@ -202,59 +155,13 @@ fun JurosScreen() {
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
-            // Resultado da aplicação
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                colors = CardDefaults.cardColors(
-                    containerColor = Color(0xFF4CAF50)
-                )
-            ) {
-                Column(
-                    modifier = Modifier
-                        //.fillMaxSize()
-                        .padding(16.dp)
-                ) {
-                    Text(
-                        text = "Resultado",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Row(modifier = Modifier.fillMaxWidth()) {
-                        Text(
-                            text = "Juros",
-                            modifier = Modifier.padding(end = 8.dp),
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                        Text(
-                            text = juros.toString(),
-                            modifier = Modifier.padding(end = 8.dp),
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.White
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Row(modifier = Modifier.fillMaxWidth()) {
-                        Text(
-                            text = "Montante",
-                            modifier = Modifier.padding(end = 8.dp),
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                        Text(
-                            text = montante.toString(),
-                            modifier = Modifier.padding(end = 8.dp),
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.White
-                        )
-                    }
-                }
-            }
+
+            // Utilizando o componente CardResultado para exibir o resultado
+            CardResultado(
+                juros = juros,
+                montante = montante
+            )
+
         }
     }
 }
