@@ -17,14 +17,20 @@ fun CaixaDeEntrada(
     placeholder: String,
     label: String,
     modifier: Modifier,
-    keyboardType: KeyboardType
+    keyboardType: KeyboardType,
+
+    // Comportamento para atualizar os valores: parâmetro especial que recebe uma função
+    atualizarValor: (String) -> Unit // Função que recebe um valor do tipo String e não retorna nada (Unit)
 
 ) {
     OutlinedTextField(
         value = value,
-        onValueChange = { /*TODO*/ },
+        onValueChange = atualizarValor, // Quem dita o comportamento de atualização do valor é a função que é passada como parâmetro
         modifier = modifier,
         placeholder = {
+            Text(text = placeholder)
+        },
+        label = {
             Text(text = label)
         },
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType)

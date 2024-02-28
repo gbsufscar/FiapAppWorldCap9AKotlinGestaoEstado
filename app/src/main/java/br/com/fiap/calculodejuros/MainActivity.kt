@@ -58,6 +58,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun JurosScreen() {
 
+    // Variáveis para garantir o estado dos campos de entrada para toda renderização
     var capital by remember { mutableStateOf("") }
     var taxa by remember { mutableStateOf("") }
     var tempo by remember { mutableStateOf("") }
@@ -105,49 +106,81 @@ fun JurosScreen() {
 //                            keyboardType = KeyboardType.Decimal
 //                        )
 //                    )
-                    // Utilizando o componente CaixaDeEntrada
+                    // Utilizando o componente CaixaDeEntrada para o valor do investimento
                     CaixaDeEntrada(
-                        value = capital,
+                        value = capital, // Variável que controla o estado a partir do componente pai
                         placeholder = "Quanto deseja investir?",
                         label = "Valor do investimento",
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 16.dp),
-                        keyboardType = KeyboardType.Decimal
+                        keyboardType = KeyboardType.Decimal,
+                        atualizarValor = {
+                            capital = it //Leia-se: capital recebe uma string it (valor atualizado na digitação)
+                        }
+                    )
+                    // Taxa de juros
+//                    OutlinedTextField(
+//                        value = taxa,
+//                        onValueChange = { taxa = it },
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .padding(top = 16.dp),
+//                        placeholder = {
+//                            Text(text = "Qual a taxa de juros mensal?")
+//                        },
+//                        label = {
+//                            Text(text = "Taxa de juros mensal")
+//                        },
+//                        keyboardOptions = KeyboardOptions(
+//                            keyboardType = KeyboardType.Decimal
+//                        )
+//                    )
+                    // Utilizando o componente CaixaDeEntrada para a taxa de juros
+                    CaixaDeEntrada(
+                        value = taxa,
+                        placeholder = "Qual a taxa de juros mensal?",
+                        label = "Taxa de juros mensal",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 16.dp),
+                        keyboardType = KeyboardType.Decimal,
+                        atualizarValor = {
+                            taxa = it
+                        }
+                    )
+                    // Período de aplicação
+//                    OutlinedTextField(
+//                        value = tempo,
+//                        onValueChange = { tempo = it },
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .padding(top = 16.dp),
+//                        placeholder = {
+//                            Text(text = "Qual o tempo em meses?")
+//                        },
+//                        label = {
+//                            Text(text = "Período em meses")
+//                        },
+//                        keyboardOptions = KeyboardOptions(
+//                            keyboardType = KeyboardType.Decimal
+//                        )
+//                    )
+                    // Utilizando o componente CaixaDeEntrada para o período de aplicação
+                    CaixaDeEntrada(
+                        value = tempo,
+                        placeholder = "Qual o período de aplicação em meses?",
+                        label = "Período em meses",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 16.dp),
+                        keyboardType = KeyboardType.Decimal,
+                        atualizarValor = {
+                            tempo = it
+                        }
                     )
 
-                    OutlinedTextField(
-                        value = taxa,
-                        onValueChange = { taxa = it },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 16.dp),
-                        placeholder = {
-                            Text(text = "Qual a taxa de juros mensal?")
-                        },
-                        label = {
-                            Text(text = "Taxa de juros mensal")
-                        },
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Decimal
-                        )
-                    )
-                    OutlinedTextField(
-                        value = tempo,
-                        onValueChange = { tempo = it },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 16.dp),
-                        placeholder = {
-                            Text(text = "Qual o tempo em meses?")
-                        },
-                        label = {
-                            Text(text = "Período em meses")
-                        },
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Decimal
-                        )
-                    )
+                    // Botão para calcular
                     Button(
                         onClick = {
                             juros = calcularJuros(
