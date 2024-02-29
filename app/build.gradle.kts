@@ -67,4 +67,7 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
+    // Acionar a dependêencia do LiveData que é utilizada para atualizar os valores dos campos de entrada
+    implementation("androidx.compose.runtime:runtime-livedata:1.6.2")
+
 }

@@ -11,6 +11,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -27,16 +28,40 @@ import br.com.fiap.calculodejuros.calculos.calcularMontante
 import br.com.fiap.calculodejuros.components.CaixaDeEntrada
 import br.com.fiap.calculodejuros.components.CardResultado
 
-// Feature que representa a tela para o cálculo de juros
+/*
+Feature que representa a tela para o cálculo de juros. Função principal,
+responsável por manter o estado da nossa tela.
+Necessário receber um parâmetro da sua respectiva ViewModel,
+responsável por fazer todas as alterações de forma centralizada para essa tela.
+ */
 @Composable
-fun JurosScreen() {
+fun JurosScreen(jurosScreenViewModel: JurosScreenViewModel) { // Passar a instância da Classe ViewModel como parâmetro
 
     // Variáveis para garantir o estado dos campos de entrada para toda renderização
-    var capital by remember { mutableStateOf("") }
-    var taxa by remember { mutableStateOf("") }
-    var tempo by remember { mutableStateOf("") }
-    var juros by remember { mutableStateOf(0.0) }
-    var montante by remember { mutableStateOf(0.0) }
+    //Linha de código superada e substituída => var capital by remember { mutableStateOf("") }
+    val capital by jurosScreenViewModel
+        .capitalState
+        .observeAsState(initial = "") // Acesso à variável capital do ViewModel (público)
+
+    //var taxa by remember { mutableStateOf("") }
+    val taxa by jurosScreenViewModel
+        .taxaState
+        .observeAsState(initial = "")
+
+    //var tempo by remember { mutableStateOf("") }
+    val tempo by jurosScreenViewModel
+        .tempoState
+        .observeAsState(initial = "")
+
+    //var juros by remember { mutableStateOf(0.0) }
+    val juros by jurosScreenViewModel
+        .jurosState
+        .observeAsState(initial = 0.0)
+
+    //var montante by remember { mutableStateOf(0.0) }
+    val montante by jurosScreenViewModel
+        .montanteState
+        .observeAsState(initial = 0.0)
 
     Box(
         modifier = Modifier.padding(16.dp),
@@ -72,11 +97,9 @@ fun JurosScreen() {
                             .fillMaxWidth()
                             .padding(top = 16.dp),
                         keyboardType = KeyboardType.Decimal,
-                        atualizarValor = {
-                            capital =
-                                it //Leia-se: capital recebe uma string it (valor atualizado na digitação)
-                        }
-                    )
+                    ){
+                        jurosScreenViewModel.onCapitalChange(it) // Atribuir o valor do capital para a variável capital do ViewModel
+                    }
 
                     // Utilizando o componente CaixaDeEntrada para a taxa de juros
                     CaixaDeEntrada(
@@ -87,11 +110,10 @@ fun JurosScreen() {
                             .fillMaxWidth()
                             .padding(top = 16.dp),
                         keyboardType = KeyboardType.Decimal,
-                        atualizarValor = {
-                            taxa = it
+                        {
+                            jurosScreenViewModel.onTaxaChange(it)
                         }
                     )
-
                     // Utilizando o componente CaixaDeEntrada para o período de aplicação
                     CaixaDeEntrada(
                         value = tempo,
@@ -101,23 +123,16 @@ fun JurosScreen() {
                             .fillMaxWidth()
                             .padding(top = 16.dp),
                         keyboardType = KeyboardType.Decimal,
-                        atualizarValor = {
-                            tempo = it
+                        {
+                            jurosScreenViewModel.onTempoChange(it)
                         }
                     )
 
                     // Botão para calcular
                     Button(
                         onClick = {
-                            juros = calcularJuros(
-                                capital = capital.toDouble(),
-                                taxa = taxa.toDouble(),
-                                tempo = tempo.toDouble()
-                            )
-                            montante = calcularMontante(
-                                capital = capital.toDouble(),
-                                juros = juros
-                            )
+                            jurosScreenViewModel.calcularJurosInvestimento()
+                            jurosScreenViewModel.calcularMontanteInvestimento()
                         },
                         modifier = Modifier
                             .fillMaxWidth()
